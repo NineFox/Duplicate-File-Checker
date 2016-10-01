@@ -55,15 +55,16 @@ function noDuplicateElements() {
 }
 
 
-#recurDirectry "${1}*" "" "" 0
 #比較元
 comparisonSource=`recurDirectry "${1}*" "" ""`
 #比較先
 comparisonDestination=`recurDirectry "${2}*" "" ""`
 
 
-echo "重複しているファイル"
+echo "Duplicate files"
 echo `duplicateElements $comparisonSource $comparisonDestination`
 
-echo "重複していないファイル"
+echo -e \
+
+echo "No duplicate files"
 echo `noDuplicateElements $comparisonSource $comparisonDestination`
