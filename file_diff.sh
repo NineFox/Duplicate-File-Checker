@@ -19,6 +19,11 @@ function recurDirectry() {
     done
 }
 
+function getFileNameFromPath() {
+    local fileName=`basename $1`
+    echo "${fileName}"
+}
+
 #md5sum コマンドからファイルパスを削除する
 function getMd5SumOnly() {
     local md5sumResult=`md5sum $1`
@@ -34,7 +39,7 @@ function duplicateElements() {
         for q in ${destinatinationArray[@]}; do
             #echo "this is q = ${q}"
             #echo "this is p = ${p}"
-            if [ `getMd5SumOnly $p` = `getMd5SumOnly $q` ]; then
+            if [ `getFileNameFromPath $p` = `getFileNameFromPath $q` ] && [ `getMd5SumOnly $p` = `getMd5SumOnly $q` ]; then
                 resultArray+=($p)
             fi
         done
@@ -51,12 +56,11 @@ function noDuplicateElements() {
     for p in ${sourceArray[@]}; do
         isContain=0
         for q in ${destinatinationArray[@]}; do
-            if [ `getMd5SumOnly $p` = `getMd5SumOnly $q` ]; then
+            if [ `getFileNameFromPath $p` = `getFileNameFromPath $q` ] && [ `getMd5SumOnly $p` = `getMd5SumOnly $q` ]; then
                 isContain=1
                 break;
             fi
         done
-
         if [ "0" -eq "$isContain" ]; then
             resultArray+=($p)
         fi
